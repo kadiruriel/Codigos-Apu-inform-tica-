@@ -1,0 +1,96 @@
+--10. En el arreglo POSTRES, se almacenan nombres de postres, ordenados alfabéticamente. A su
+--vez, cada elemento del arreglo tiene una lista de todos los ingredientes que requiere dicho
+--postre. Escriba un programa que:
+--a) Dado el nombre de un postre, imprima la lista de todos sus ingredientes.
+--b) Dado el nombre de un postre, pueda insertar nuevos ingredientes a su correspondiente
+--lista.
+--c) Dado el nombre de un postre, pueda eliminar alguno de sus ingredientes.
+--d) Dar de alta un postre con todos sus ingredientes.
+--e) Dar de baja un postre con todos sus ingredientes.
+
+with Ada.Text_Io,Ada.Characters.Handling,Otermin_Liana_Lista,Otermin_liana_Vector_Basico;
+use Ada.Text_Io,Ada.Characters.Handling;
+
+procedure tp6_ej_10 is
+ 
+type T_Index is range 1..4;
+subtype cade20 is string (1..20);
+
+type Cadena is record
+   nom_ing:cade20;
+   Long_ing:Integer;
+end record;
+
+
+
+-----------------------------------------------------------------------------------------------------------------
+------INSTANCIACION LISTA ORDENADA------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------
+------INSTANCIACION LISTA NO ORDENADA----------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------
+
+package Lista_Ing is new Otermin_Liana_Lista(cadena);
+use Lista_Ing;
+
+--type Menu is record
+--   Nombre_Postre:Cade20;
+--   long_nom:integer;
+--   ingrediente:lista_ing;
+-----------------------------------------------------------------------------------------------------------------
+------INSTANCIACION DE GET VECTOR--------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------
+
+   procedure Leo_Ing (L: out lista_ing.T_Lista) is
+   Rta:Character;
+   --Aux_Elem:t_lista; 
+   cade: cadena;     
+   begin
+      Rta:='s';
+      put_line("Ingrese el nombre del postre");
+      Get_line(cade.Nombre_postre,cade.long_nom);
+      if cade.Long_nom>=cade20'last then Skip_Line;
+      end if;
+      while rta='s' loop
+         Put_Line("ingrese el nombre del ingrediente");
+         Get_line(Cade.ingrediente,cade.long_ing);
+         --if Cade.Long_ing>=cade20'last then Skip_Line;
+         --end if;
+         Insertar(L,cade);
+         Put_Line("Desea ingresar otro ingrediente al postre?");
+         Get_Immediate(Rta);
+      end loop;
+   end Leo_Ing;
+ 
+--------------------------------------------------------------------------------------------------------------
+--REDEFINICION DE PUT DE VECTOR-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+   procedure Imprimo_Ing (L: in lista_ing.T_Lista) is
+      L_Aux:Lista_Ing.T_Lista:=L;
+      cade_aux: cadena;
+   begin
+      while not Vacia(L_Aux) loop
+         Cade_Aux:=Info(L_Aux);
+         Put_Line("Nombre del postre");
+         Put_Line(Cade_Aux.Nombre_Postre);New_Line;
+         Put_Line("Nombre del ingrediente");
+         Put_Line(Cade_Aux.ingrediente(1..cade_aux.long_ing));
+         L_Aux:=Sig(L_Aux);
+      end loop;
+   end Imprimo_Ing;
+   
+   package Vec_Postres is new Otermin_liana_Vector_Basico(lista_ing.t_lista,t_index,Leo_Ing,Imprimo_Ing);
+   use Vec_Postres;
+   
+   Postres:Vec_Postres.T_Vector;
+   
+ 
+
+         
+begin
+   leer(Postres);
+   Imprimir(Postres);
+   
+      
+
+end tp6_ej_10;
