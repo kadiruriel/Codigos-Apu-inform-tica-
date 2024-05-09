@@ -1,0 +1,41 @@
+--cree un procedimiento que cuente la cantidad de elementos pares de una lista enlazada de enteros usando recursion;
+with Ada.Text_Io, Ada.Integer_Text_Io, Lista_Kadir_Martinez;
+use Ada.Text_Io, Ada.Integer_Text_Io;
+
+procedure tp6_punto3_parte3 is
+
+   package Lista_Enteros is new Lista_Kadir_Martinez (Integer);
+   use Lista_Enteros;
+   
+lista: lista_enteros.t_lista;
+
+
+   procedure Cargar_Datos (L: in out Lista_Enteros.T_Lista) is
+   rta: character;
+   num: integer;
+   begin
+      Put_Line ("Presione s si desea ingresar un numero entero a la lista, presione otra tecla si no quiere");
+      Get(Rta);
+      while Rta = 's' loop
+         put_line ("ingrese su numero");
+         Get(Num);
+         Insertar_lista (L,Num);
+         Put_Line (" Si desea ingresar otro numero presione s, si no quiere presione otra tecla");
+         Get (Rta);
+      end loop;
+   end Cargar_Datos;
+------------------------------------------------------------------------------------------------------
+   function  Cuenta_Pares (L: in Lista_Enteros.T_Lista) return Integer is 
+      Ptr:Lista_Enteros.T_Lista:= L;
+   begin
+      if Vacia_Lista (L) then return 0;
+      elsif Info(Ptr) rem 2 = 0 then return 1 + Cuenta_Pares(Sig(L));
+      else return cuenta_pares(sig(L));
+        
+      end if;
+   end Cuenta_Pares;
+--------------------------------------------------------------------------------------------   
+begin 
+   Cargar_Datos (Lista);
+   put_line (" La cantidad de elementos pares en la lista es " & integer'image (cuenta_pares(lista)));
+   end tp6_punto3_parte3;
