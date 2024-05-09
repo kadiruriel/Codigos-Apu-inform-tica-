@@ -1,0 +1,40 @@
+	Escriba una función recursiva que cuente el número de nodos de una lista enlazada
+
+
+with Ada.Text_Io, Ada.Integer_Text_Io, Lista_Kadir_Martinez;
+use Ada.Text_Io, Ada.Integer_Text_Io;
+
+procedure tp6_p3_parte1 is
+
+   package Lista_Entero is new Lista_Kadir_Martinez (Integer);
+   use Lista_Entero;
+   
+lista: lista_entero.t_lista;
+
+
+   procedure Cargar_Datos (L: in out Lista_Entero.T_Lista) is
+   rta: character;
+   num: integer;
+   begin
+      Put_Line ("Presione s si desea ingresar un numero entero a la lista, presione otra tecla si no quiere");
+      Get(Rta);
+      while Rta = 's' loop
+         put_line ("ingrese su numero");
+         Get(Num);
+         Insertar_Lista (L,Num);
+         Put_Line (" Si desea ingresar otro numero presione s, si no quiere presione otra tecla");
+         Get (Rta);
+      end loop;
+      end cargar_datos;
+      
+      function Contar_nodos (L: in Lista_Entero.T_Lista) return Integer is
+      begin
+         if Vacia_Lista (L) then return 0;
+         else return 1 + Contar_Nodos(Sig(L));
+         end if;
+      end Contar_Nodos;
+      
+   begin
+      Cargar_Datos (Lista);
+      put_line ("la cantidad de nodos que hay en la lista es " & integer'image(contar_nodos(lista)));
+      end tp6_p3_parte1;
