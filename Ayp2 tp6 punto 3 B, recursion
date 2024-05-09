@@ -1,0 +1,52 @@
+Escriba una función booleana recursiva que determine si los elementos de una lista enlazada están ordenados en forma ascendente.
+
+NO ENTIENDO PORQUE FUNCIONA AL REVES
+
+with Ada.Text_Io, Ada.Integer_Text_Io, lista_kadir_martinez;
+use Ada.Text_Io, Ada.Integer_Text_Io;
+
+procedure tp6_p3_parte2 is
+
+   package Lista_Entero is new lista_kadir_martinez (Integer);
+   use Lista_Entero;
+   
+lista: lista_entero.t_lista;
+
+
+   procedure Cargar_Datos (L: in out Lista_Entero.T_Lista) is
+   rta: character;
+   num: integer;
+   begin
+      Put_Line ("Presione s si desea ingresar un numero entero a la lista, presione otra tecla si no quiere");
+      Get(Rta);
+      while Rta = 's' loop
+         put_line ("ingrese su numero");
+         Get(Num);
+         Insertar_lista (L,Num);
+         Put_Line (" Si desea ingresar otro numero presione s, si no quiere presione otra tecla");
+         Get (Rta);
+      end loop;
+   end Cargar_Datos;
+   
+
+function Ordenado (L: in Lista_Entero.t_lista) return Boolean is
+   Ptr: Lista_Entero.T_Lista := L;
+  
+begin
+    if Vacia_lista (ptr) or vacia_lista(Sig(ptr)) then -- Verifica si la lista está vacía o solo tiene un elemento
+ 
+        return True;
+    else if Info(ptr) < Info(Sig(ptr)) then --(CAMBIE EL > POR <) Verifica si el elemento actual es mayor que el siguiente
+        return false;
+    else return true and Ordenado(Sig(ptr)); -- Llamada recursiva con el siguiente elemento
+      end if;
+      end if;
+end Ordenado;
+
+
+begin 
+   Cargar_Datos (Lista);
+   if Ordenado(Lista) then Put_Line("Lista ordenada de forma ascendente");
+   else put_line("La lista -NO- esta ordenada de forma ascentente");--LE AGREGUÉ ESTA LINEA PARA VER LA FUNCION--
+   end if;   
+   end tp6_p3_parte2;
