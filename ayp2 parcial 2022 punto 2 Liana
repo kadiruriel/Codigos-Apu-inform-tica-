@@ -1,0 +1,104 @@
+--2.	Programar un procedimiento Analizar que dada la estructura E consistente en un vector de colas de listas ordenadas de números enteros--
+--, muestre todos los números pares de las listas correspondientes a la cola ubicada en la primera posición del vector. --
+ --Nota: Conservar la estructura E (no debe quedar alterada) e instanciar los TADs correspondientes.--
+with Ada.Text_Io,ada.Integer_Text_IO, Otermin_Liana_Lista_Ordenada, Otermin_Liana_Cola_Dinamica, Vector_Basico;
+use Ada.Text_Io,ada.Integer_Text_IO;
+
+procedure Punto_2 is
+   
+type T_Index is range 1..3;
+     
+--------------------------------------------------------------------------------------------
+package Lista_Ent is new Otermin_Liana_Lista_Ordenada(integer,"<",">"); 
+use Lista_Ent;
+
+--------------------------------------------------------------------------------------------
+package Cola_De_Listas is new Otermin_Liana_Cola_Dinamica(Lista_Ent.T_Lista);
+use Cola_De_Listas;
+
+-------------------------------------------------------------------------------------------
+------LOS  VALORES INGRESADOS NO SE REPITEN------------------------------------
+procedure Val_Lista (L: out T_Lista) is
+   
+   Rta_Lista: Character;
+   aux:integer;
+begin
+      rta_lista:='s';
+      while Rta_lista = 's' loop
+      put_line("Ingrese un entero a la lista");   
+      Get(Aux);skip_line;
+      Insertar(L,Aux);
+      Put_Line("Desea ingresar otro valor a la lista?  <s> sigue // otra tecla termina");
+      Get(Rta_lista);skip_line;
+      end loop;
+end val_lista;
+
+----------------------------------------------------------------------------------------------
+
+procedure Leer_datos (C: out t_cola ) is
+   Lista_Aux: Lista_Ent.t_lista;
+   
+   rta_colas:character;
+begin
+   Rta_colas:='s';
+     
+   while rta_colas='s'loop
+      val_lista(lista_aux);
+      Insertar_CD(c,Lista_Aux);
+      Put_Line("Desea ingresar otra lista de valores? <s> sigue // otra tecla termina");   
+      Get(Rta_Colas);Skip_Line;
+     
+   end loop;
+         
+end Leer_Datos;
+---------------------------------------------------------------------------------------------
+
+procedure Imprimir_Listas (L: in T_Lista) is
+   Num:Integer;
+   aux_lista:t_lista:=l;
+begin
+   while not Vacia (aux_lista) loop
+      Num:=Info(Aux_Lista);
+      if num rem 2 = 0 then
+         Put(Num);
+         end if;
+      Aux_Lista:=Sig(Aux_Lista); ---en teoria como avanzo con punteros conservo la estructura??
+     end loop;
+end imprimir_listas;
+--------------------------------------------------------------------------------------------------
+procedure imprimir_colas (X: in t_cola ) is
+   Aux_Lista:T_Lista;
+   Pun_Cola: T_Cola:=X;
+   Cola_Auxiliar: T_Cola;
+   pun_aux: t_cola:=cola_auxiliar;
+begin
+   while not vacia_CD(pun_cola) loop
+   Suprimir_Cd (Pun_Cola,Aux_Lista);
+      Imprimir_Listas(Aux_Lista); 
+      insertar_CD (pun_aux, aux_lista);
+   end loop;
+   while not Vacia_Cd (Pun_Aux) loop
+      Suprimir_Cd (Pun_Aux, Aux_Lista);
+      Insertar_Cd (Pun_Cola, Aux_Lista);
+      end loop; ----conservo la estructura asi???      
+end Imprimir_Colas; 
+----------------------------------------------------------------------------------------------
+
+
+
+package Vector_CL is new Vector_Basico(t_cola,t_index, leer_datos, imprimir_colas);
+use Vector_CL;
+
+procedure posicion_uno (vec: in t_vector; indice_aux: in t_index) is
+aux:t_cola;
+begin
+ aux:=(vec(indice_aux));
+ imprimir_colas(aux);
+end posicion_uno;
+
+vec_Cola_lista:vector_cl.t_vector;
+------------------------------------------------------------------------------------------------
+begin
+   Leer(Vec_Cola_Lista);
+   posicion_uno(vec_Cola_lista,1);
+end punto_2;
