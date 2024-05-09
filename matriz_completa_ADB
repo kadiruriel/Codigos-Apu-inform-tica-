@@ -1,0 +1,123 @@
+package body otermin_liana_mat_completa is
+
+--------------------------------------------------------------------------------------------
+   
+procedure Leer (M: out T_Mat) is
+   begin
+      for I in T_fila'range loop
+         for j in T_columna'range loop
+
+            Get(M(I,J));salto_ln;
+         end loop;
+      end loop;
+      
+end Leer;
+ 
+--------------------------------------------------------------------------------------------
+
+procedure Imprimir (M: in T_Mat) is
+begin
+      for I in T_fila'range loop
+         for j in T_columna'range loop
+
+            put(M(I,J));
+         end loop;
+         salto_ln;
+      end loop;
+end Imprimir;
+
+--------------------------------------------------------------------------------------------
+function Comparar (M1,M2: in T_Mat)return boolean is
+      Acum_M1: Integer;
+      Resu:Boolean;
+      x:float;
+   begin
+      Acum_M1:=0;
+      
+      for I in T_Fila'range loop
+         for J in T_Columna'range loop
+            if M1(I,J)> M2(I,J) or M1(I,J)= M2(I,J) then
+               Acum_M1:=Acum_M1+1;
+            end if;
+           end loop;
+       end loop;
+       x:= float(Acum_M1/(M1'Length(1)*M1'Length(2)));
+       if x>=0.50 then
+         Resu:=True;
+      else 
+         resu:=false;
+       end if;
+       return Resu;
+end Comparar;
+
+--------------------------------------------------------------------------------------------
+procedure ordenar (m: in out t_mat;c: in t_Columna) is
+tope: t_fila;
+auxiliar: t_elemento;
+cambio: boolean;
+begin
+
+   tope:= t_Fila'last;
+   cambio:= true;
+
+   while tope>t_Fila'first and cambio loop
+         cambio:= false;
+         for i in t_Fila'first .. t_Fila'pred (t_Fila'last) loop
+
+           if m(i,c)>m(t_Fila'succ(i),c) then
+
+            for j in t_Columna'range loop
+               auxiliar:= m (i, j);
+               m (i, j):= m (t_Fila'succ (i), j);
+               m (t_Fila'succ (i), j):= auxiliar;
+            end loop;
+               Cambio:= True;
+           end if;
+         end loop;
+         tope:= t_Fila'pred (tope);
+end loop;
+end ordenar;
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+procedure busqueda (M: in T_Mat; X:in T_Elemento; Posi_Fil: out T_Fila;Posi_col: out t_columna;Encontrado:out Boolean) is
+   
+begin
+encontrado:= false;
+   for i in t_Fila'range loop
+     for j in t_Columna'range loop
+
+         if x = m (i, j) then
+            encontrado:= true;
+            posi_fil:= i;
+            posi_col:= j;
+         
+         end if;
+         end loop;
+   end loop;
+end Busqueda;
+
+--------------------------------------------------------------------------------------------
+
+procedure Trasponer (M1: in T_Mat; M2: out T_Traspuesta) is
+begin
+      for J in T_Columna'range loop
+         for I in T_Fila'range loop
+            M2(J,I):=M1(I,J);
+         end loop;
+   end loop;
+end trasponer;
+
+--------------------------------------------------------------------------------------------
+
+procedure Imprimir_tras (M: in T_traspuesta) is
+begin
+      for I in T_columna'range loop
+         for J in T_fila'range loop
+         put(M(i,j));
+         end loop;
+         salto_ln;
+      end loop;
+end Imprimir_tras;
+
+end otermin_liana_mat_completa;
