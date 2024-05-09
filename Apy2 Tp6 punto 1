@@ -1,0 +1,155 @@
+Consigna 1.	Dado un vector cuyos elementos son pilas (con implementación dinámica) de registros compuestos por dos campos, 
+uno de tipo entero y el otro de tipo carácter, programar un procedimiento que permita obtener 
+el promedio de los valores enteros contenidos en los registros que están en el tope de cada pila. 
+Se debe conservar la información almacenada en la estructura.
+
+with Ada.Integer_Text_Io, Ada.Text_Io, ada.Characters.Handling, ada.Float_Text_IO,  pila_dinamica_kadir_martinez, vector_kadir_martinez;
+use Ada.Integer_Text_Io, Ada.Text_Io, ada.Characters.Handling, ada.Float_Text_IO;
+
+procedure Tp6_1_por_las_dudas is
+   
+   ----------subtipos y rangos---------------
+   type T_Reg is record
+      Letra: Character;
+      Entero: Integer;
+      end record;
+   ---subtype T_Dato is t_reg; ----tipo de elemento 
+   subtype Indice is Integer range 1..3;     
+   
+      package Pila_Din is new Pila_Dinamica_Kadir_Martinez (t_reg);
+      use Pila_Din;
+   
+   --------------------------para las redefiniciones-------------------------------------------------------------------------
+   procedure Leer_Registros (Regi: out T_Reg) is
+    begin
+       loop
+          begin
+       Put_Line ("Por favor ingrese un numero entero para el registro de la pila");
+       Get (regi.Entero); skip_line;
+              Put_Line ("Por favor ingrese una letra para el registro de la pila");
+             Get (Regi.Letra); Skip_Line;
+          exit;
+          exception
+                                                                             
+             when Data_Error=>Put_Line("tipo de dato incorrecto, vuelva a intentar"); Skip_Line;
+         end;
+       end loop;
+
+
+    end Leer_Registros;   
+    ------------------------------------------------------------------------------------------------------------------------
+    procedure Imprimir_Registros (Regi: in T_Reg) is
+    begin 
+        Put(regi.entero);
+       Put(Regi.Letra);New_Line;
+       end imprimir_registros;
+-------------------------------------------------------------------------------------------------------------------------------
+         procedure Ingreso_Datos (pila: out t_pila) is ---por cada linea del get hago esto
+            Rta: Character;
+            regi: t_reg;
+               begin
+       
+            Put_Line ("Desea insertar un elemento en la pila, presione s para hacerlo"); 
+            Get(Rta); Skip_Line;
+        
+            while Rta = 's' loop
+               
+            Put_Line ("ingrese un elemento a la pila");
+              leer_registros (regi);
+               insertar_pila (pila, regi);
+               Put_Line ("Desea insertar otro elemento en la pila, presione s para hacerlo, presione otra tecla para pasar a la siguiente pila");
+               get(rta); skip_line;
+
+            end loop;
+           
+        
+         end Ingreso_Datos;
+----------------------------------------------------------------------------------------------------------------------------------------------         
+         procedure Impresion_vector (pila: in t_pila) is ------no lo pide el ejercicio es para ver si los datos ingresan bien
+            Regi: T_Reg;
+            P_Aux:T_Pila:=Pila;
+            ---regi_aux, P_aux2
+   begin
+      Put_Line ("num/letra");
+      put_line ("--- ------");
+      while not vacia_pila (p_aux) loop
+         Suprimir_pila (P_aux,Regi);---como podria conservar la estructura, cual es el limite
+          ----regi_aux:= regi;        ---del suprimir, el loop?
+          imprimir_registros (regi);
+        ----insertar_pila (p_aux2, regi_aux)-- guardo en una pila auxiliar que esta al reves
+         end loop;
+           
+      ---while not vacia_pila(p_aux2) loop
+      ----suprimir_pila (p_aux2, regi_aux)
+      ----insertar_pila (p_aux, regi_aux)
+      ----end loop
+     
+   end Impresion_Vector;
+
+
+-------instancio paquete vector----------------------------------------------------------------------
+
+  
+   package Vector_Pilas is new Vector_Kadir_Martinez (T_Pila, Indice, Impresion_vector, Ingreso_Datos);
+   use vector_pilas;
+
+----------------------------------------------------------------------------------------------
+--variables------------
+
+   Vector: vector_pilas.arreglo;
+   promedio: float;
+
+-----procedimientos/funciones----------------------------------------------------------------------
+
+   procedure Ingresar_Vectordepilas is ----------aca las pilas entran en el vector
+   begin
+      Put_Line("Ingreso de Pilas en Vector de " & Integer'Image(vector'last) & " elementos");
+      New_Line;
+      Leer(Vector);
+   end Ingresar_Vectordepilas;  
+   
+   -------------------------------------------------------------------------------------------------------------------------
+   procedure Mostrar_Pilas (promedio_aux: in out float) is
+   begin
+      Put_Line (" Pilas ingresadas al vector de " & Integer'Image(Vector'Length) & " elementos ");
+      new_line;
+      Imprimir(Vector);
+      New_Line;
+      Put (" promedio de la suma de los topes de las pilas ");
+      put (promedio_aux,5,2,0);
+      end mostrar_pilas;
+---------------------------------------------------------------------------------------------------------------------------
+   procedure Promedio_Tope_Pilas (Vec: in Vector_Pilas.Arreglo; Promedio_Aux: out Float) is
+      Sumatoria: Float;
+      Regi: T_Reg;
+      Cont: Integer;
+      pila_aux: t_pila;      
+
+   begin
+      Sumatoria:= 0.0;
+      Cont:= 0;
+      for I in Indice'range loop
+         Pila_Aux:=Vec(I);
+         if not Vacia_Pila (Pila_Aux) then -----sale el primer elemento de la pila y vuelve a entrar, se mantiene la estructura
+            Suprimir_Pila (Pila_Aux, Regi);
+            Insertar_Pila (Pila_Aux, Regi);
+         end if;
+            Sumatoria:= Sumatoria + float(Regi.Entero);
+         Cont:= Cont+1;
+      end loop;
+      promedio_aux:= sumatoria / float(cont);
+   end Promedio_Tope_Pilas;
+-------------------------------------------------------------------------------------------------------------------------
+  
+------------------------------------------------------------------------------------------------------------------
+
+begin
+   
+   Ingresar_Vectordepilas;
+
+   Promedio_Tope_Pilas (Vector, Promedio);
+   mostrar_pilas(promedio);
+  
+   
+    
+end tp6_1_por_las_dudas;
