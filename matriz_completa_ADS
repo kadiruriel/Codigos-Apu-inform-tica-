@@ -1,0 +1,26 @@
+generic
+
+   type T_Elemento is private;
+   type T_fila is (<>);
+   type T_Columna is (<>);
+
+   with procedure Get (X:out T_Elemento);
+   with procedure Put(X:in T_Elemento);
+   with procedure salto_ln;
+   with function "<" (a,b: t_elemento) return Boolean;
+   with function ">" (A,B: T_Elemento) return Boolean;
+   with function "+" (A,B: T_Elemento) return t_elemento;
+   with function "*" (A,B: T_Elemento) return T_Elemento; 
+   with function "/" (a,b: t_elemento) return t_elemento;
+   
+   package otermin_liana_mat_completa is 
+      type T_Mat is array (T_Fila,T_Columna) of T_Elemento;
+      type t_Traspuesta is array (t_columna,t_fila) of t_elemento;
+      procedure Leer (M: out T_Mat);
+      procedure Imprimir (M: in T_Mat);
+      function Comparar (M1,M2: in T_Mat) return boolean;
+      procedure Ordenar(M: in out t_mat;c: in t_columna);
+      procedure Busqueda (M: in T_Mat; X:in T_Elemento; Posi_Fil: out T_Fila;posi_col: out t_columna; encontrado: out boolean);
+      procedure Trasponer (M1: in T_Mat; M2: out T_traspuesta);
+      procedure imprimir_tras(m: in t_traspuesta);  
+  end otermin_liana_mat_completa;
