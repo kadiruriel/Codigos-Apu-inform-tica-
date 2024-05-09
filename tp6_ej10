@@ -16,12 +16,20 @@ procedure tp6_ej_10 is
 type T_Index is range 1..4;
 subtype cade20 is string (1..20);
 
-type Cadena is record
+type reg_ing is record
    nom_ing:cade20;
    Long_ing:Integer;
 end record;
 
+type reg_postre is record
+    Nom_postre:Cade20;
+    Long_Nom:Integer;
+end record;
 
+type Menu is record
+   Postre:Reg_Postre;
+   ingrediente:reg_ing;
+end record;
 
 -----------------------------------------------------------------------------------------------------------------
 ------INSTANCIACION LISTA ORDENADA------------------------------------------------------------------------------
@@ -30,13 +38,10 @@ end record;
 ------INSTANCIACION LISTA NO ORDENADA----------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------
 
-package Lista_Ing is new Otermin_Liana_Lista(cadena);
+package Lista_Ing is new Otermin_Liana_Lista(menu);
 use Lista_Ing;
 
---type Menu is record
---   Nombre_Postre:Cade20;
---   long_nom:integer;
---   ingrediente:lista_ing;
+
 -----------------------------------------------------------------------------------------------------------------
 ------INSTANCIACION DE GET VECTOR--------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------
@@ -44,16 +49,16 @@ use Lista_Ing;
    procedure Leo_Ing (L: out lista_ing.T_Lista) is
    Rta:Character;
    --Aux_Elem:t_lista; 
-   cade: cadena;     
+   cade: menu;     
    begin
       Rta:='s';
       put_line("Ingrese el nombre del postre");
-      Get_line(cade.Nombre_postre,cade.long_nom);
-      if cade.Long_nom>=cade20'last then Skip_Line;
+      Get_line(cade.postre.Nom_postre,cade.postre.long_nom);
+      if cade.postre.Long_nom>=cade20'last then Skip_Line;
       end if;
       while rta='s' loop
          Put_Line("ingrese el nombre del ingrediente");
-         Get_line(Cade.ingrediente,cade.long_ing);
+         Get_line(Cade.ingrediente.nom_ing,cade.ingrediente.long_ing);
          --if Cade.Long_ing>=cade20'last then Skip_Line;
          --end if;
          Insertar(L,cade);
@@ -67,14 +72,14 @@ use Lista_Ing;
 --------------------------------------------------------------------------------------------------------------
    procedure Imprimo_Ing (L: in lista_ing.T_Lista) is
       L_Aux:Lista_Ing.T_Lista:=L;
-      cade_aux: cadena;
+      cade: menu;
    begin
       while not Vacia(L_Aux) loop
-         Cade_Aux:=Info(L_Aux);
+         Cade:=Info(L_Aux);
          Put_Line("Nombre del postre");
-         Put_Line(Cade_Aux.Nombre_Postre);New_Line;
+         Put_Line(Cade.Postre.nom_postre(1..cade.postre.long_nom));New_Line;
          Put_Line("Nombre del ingrediente");
-         Put_Line(Cade_Aux.ingrediente(1..cade_aux.long_ing));
+         Put_Line(Cade.ingrediente.nom_ing(1..cade.ingrediente.long_ing));
          L_Aux:=Sig(L_Aux);
       end loop;
    end Imprimo_Ing;
