@@ -1,0 +1,24 @@
+generic 
+
+   type T_Elemento is private;
+   type T_Indice is (<>);   
+   with procedure Get (X: out T_Elemento);
+   with procedure put (x: in t_elemento);
+   with function raiz(x: in t_elemento) return float;
+   with function "+" (x,y: t_elemento) return t_elemento;
+   with function "*" (x,y: t_elemento) return t_elemento;
+   with function "<" (X,Y:T_Elemento) return Boolean;
+   with function ">" (X,Y:T_Elemento) return Boolean;
+   nulo:t_elemento;
+   
+   package 
+      
+      Otermin_Liana_Vector_Completo is
+      type T_Vector is array (T_Indice) of T_Elemento;
+      procedure Leer (V: out T_Vector);
+      procedure Imprimir (V: in T_Vector);
+      function Norma (V: in T_Vector) return Float;
+      function compara (v1,v2: in t_vector) return boolean;
+      procedure ordenamiento (V: in out T_Vector);
+      procedure Busqueda(V:in T_Vector;X:in T_Elemento;Y:out T_Indice; Z: out boolean);
+   end Otermin_Liana_Vector_Completo;
