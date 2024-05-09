@@ -1,0 +1,104 @@
+package body Otermin_Liana_Vector_Completo is
+   
+   
+---------------------------------------------------------------------------------------------
+ 
+   procedure leer (V: out T_Vector) is
+   begin
+      for I in T_Indice'range loop
+         Get(V(I));
+      end loop;
+   end Leer;
+    
+---------------------------------------------------------------------------------------------
+   
+   procedure imprimir(V: in T_Vector) is
+   begin
+      for I in T_Indice'range loop
+         Put(V(I));
+      end loop;
+   end Imprimir;
+   
+---------------------------------------------------------------------------------------------
+ 
+   function Norma (V: in T_Vector) return float is
+      Suma,Aux: T_Elemento;
+      resu:float;
+   begin
+     
+    suma:=nulo;
+         for I in T_Indice'range loop
+         aux:=(v(i))*(v(i));
+         Suma:=Aux+Suma;
+      end loop;
+      resu:=Raiz (Suma);
+      return resu;
+   end Norma;
+    
+---------------------------------------------------------------------------------------------
+
+   function Compara (v1,v2: in T_vector) return boolean is
+      Resu:Boolean;
+      
+   begin
+      
+      if (Norma (V1))< (norma(v2)) or (Norma (V1))=(norma(v2)) then
+         Resu:=True;
+      else 
+         Resu:=False;
+      end if;
+      return Resu;
+   end Compara;
+   
+---------------------------------------------------------------------------------------------
+   
+   procedure ordenamiento(V: in out T_Vector) is
+   Aux: T_Elemento;
+   ultimo,Izq,Der:t_indice;
+   begin
+      
+      Izq:=t_indice'succ(t_indice'first);
+      Der:=t_indice'last;
+      Ultimo:=t_indice'last;
+      loop
+         for I in reverse izq..der loop
+            if V(t_indice'pred(i)) > V(I) then  
+               Aux:=V(I);
+               V(I):=V(t_indice'pred(i));
+               V(t_indice'pred(i)):=Aux;
+               Ultimo:=I;
+            end if;
+            
+         end loop;
+         
+         Izq:=t_indice'succ(ultimo);
+         for J in Izq..Der loop
+            if V(t_indice'pred(j))>V(J) then
+               Aux:=V(J);
+               V(J):=V(t_indice'pred(j));
+               V(t_indice'pred(j)):=Aux;
+               Ultimo:=J;
+               end if;
+         end loop;
+         Der:=t_indice'pred(Ultimo);
+         exit when (Izq>Der);  
+      end loop;
+        
+   end Ordenamiento;
+   
+---------------------------------------------------------------------------------------------
+   
+procedure busqueda(v:in t_vector;x: in t_elemento;y: out t_indice;z: out boolean) is
+begin
+   Z:=False;
+   for I in T_Indice'range loop
+      if X=V(I) then
+         Z:=True;
+         Y:=I;
+         exit;
+      end if;
+   end loop;
+    
+end Busqueda;
+
+end Otermin_Liana_Vector_Completo; 
