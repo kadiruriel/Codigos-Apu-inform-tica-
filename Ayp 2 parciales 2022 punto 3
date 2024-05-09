@@ -1,0 +1,97 @@
+---Programar un procedimiento diferencia que reciba una pila de enteros
+-- y una lista de enteros, y que retorne una lista2 ordenada de los elementos
+-- que se encuentran en sólo una estructura.
+
+with Ada.Integer_Text_Io, Ada.Text_Io, Lista_Kadir_Martinez, Pila_Dinamica_Kadir_Martinez, Lista_Ordenada_Kadir_Martinez;
+use Ada.Integer_Text_Io, Ada.Text_Io;
+
+procedure Punto_2_Parcial_Viejo is
+
+   package Lista_Enteros is new Lista_Kadir_Martinez (Integer);
+   use Lista_Enteros;
+      
+      package Pila_Enteros is new Pila_Dinamica_Kadir_Martinez (Integer);
+      use pila_enteros;
+
+   package Lista_Ordenada_Enteros is new Lista_Ordenada_Kadir_Martinez (Integer, "<" , ">");
+   use Lista_Ordenada_Enteros;
+------------------------------------------------------------------------------------------------------------------------------------------
+   Lista:Lista_Enteros.T_Lista;
+   Pila: Pila_Enteros.T_pila;
+   lista_ordenada: Lista_Ordenada_Enteros.T_Lista;   
+-------------------------------------------------------------------------------------------------------------------------------------------  
+   procedure Ingresar_Datos_Lista (L: out Lista_Enteros.T_Lista) is
+      Rta: Character;   
+      num: integer;
+   begin
+      Put_Line ("Desea ingresar datos en la lista? presione <s> de ser asi, presione otra tecla si no quiere ingresar");
+      Get(Rta); Skip_Line;
+      while Rta = 's' loop
+         Put_Line (" ingrese su numero entero por favor");
+         Get (Num); skip_line;
+         Insertar_Lista (L, Num);
+         Put_Line ("si desea ingresar otro numero entero a la lista presione <s>, si quiere dejar de ingresar datos presione otra tecla");
+         Get(Rta); skip_line;
+      end loop;
+      
+   end Ingresar_Datos_Lista;
+ ----------------------------------------------------------------------------------------------------------------------------------------
+   procedure Ingresar_Datos_pila (P: out Pila_Enteros.T_pila) is
+      Rta: Character;   
+      num: integer;
+   begin
+      Put_Line ("Desea ingresar datos en la pila? presione <s> de ser asi, presione otra tecla si no quiere ingresar");
+      Get(Rta); Skip_Line;
+      while Rta = 's' loop
+         Put_Line (" ingrese su numero entero por favor");
+         Get (Num); skip_line;
+         Insertar_pila (P, Num);
+         Put_Line ("si desea ingresar otro numero entero a la pila presione <s>, si quiere dejar de ingresar datos presione otra tecla");
+         Get(Rta); skip_line;
+      end loop;
+end ingresar_datos_pila;
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+   procedure diferencia (L_Ordenada: out Lista_Ordenada_Enteros.T_Lista; L: in Lista_Enteros.T_Lista; P: in Pila_Enteros.T_Pila) is
+      Num,num2: Integer;
+      P_Aux: T_Pila:=P; 
+      L_Aux: Lista_Enteros.T_Lista:=L;
+      l_orden_aux:Lista_Ordenada_Enteros.T_Lista:= l_ordenada;
+   begin 
+      while not Vacia_Pila (P_aux) loop
+         Suprimir_Pila (P_aux, Num);
+         if not Esta (L_aux,Num) then
+            Insertar_Lista (L_Ordenada, Num);
+          else
+               Suprimir_Lista(L_Aux,num);
+            end if;
+      end loop;
+      
+      while not Vacia_Lista (L_Aux) loop
+            num2:= info(l_aux);
+            if not Esta (l_orden_aux, Num2) then
+            Insertar_Lista (l_ordenada, Num2);
+            end if;
+            l_aux:= sig(l_aux);
+            end loop;
+      end diferencia;
+-------------------------------------------------------------------------------------------------------------------------------------------------
+   procedure Imprimo_Lista_Ordenada (L_Ordenada: in Lista_Ordenada_Enteros.T_Lista) is
+      Num: Integer;
+      l_aux: lista_ordenada_enteros.t_lista := l_ordenada;   
+   begin 
+      while not Vacia_Lista (L_Aux) loop
+         num:= info(l_aux);
+         Put (Num);
+         L_aux:= sig (l_aux);
+      end loop;
+      end imprimo_lista_ordenada;
+
+begin 
+   Ingresar_Datos_Lista(Lista);
+   Ingresar_Datos_Pila (Pila);
+   diferencia(Lista_Ordenada, Lista, Pila);
+   put_line (" Esta es la lista ordenada de los numero que NO estan en la lista y la pila al mismo tiempo");
+   imprimo_lista_ordenada (lista_ordenada);
+  
+   end punto_2_parcial_viejo;
