@@ -1,0 +1,61 @@
+with Ada.Text_Io,Ada.Integer_Text_Io,Otermin_Abb;
+use Ada.Text_Io,Ada.Integer_Text_Io;
+-- Escribir una función que cuente las hojas (o sea los nodos con ambos subárboles vacíos) de
+--un árbol binario.
+
+procedure Tp6_Ej12 is
+
+cant_hojas:integer;
+   
+function menor (X,Y: in Integer) return boolean is
+begin   
+   if X<Y then return True;
+   else return False;
+   end if;
+end menor;
+
+function mayor (X,Y: in Integer) return boolean is
+begin   
+   if X>Y then return True;
+   else return False;
+   end if;
+end mayor;
+   
+package Arbol_Ent is new Otermin_Abb(Integer,Menor,mayor);
+use arbol_Ent;
+arbol_enteros:arbol_ent.t_arbol;
+
+procedure Ingresa_Datos (Ar: out T_Arbol) is
+Num:Integer;
+rta:character;   
+begin
+   Rta:='s';
+   while rta='s' loop
+   Put_Line("ingrese un numero, no se admiten valores repetidos");New_Line;
+   Get(Num);Skip_Line;
+   Insertar_Ar(Ar,Num);
+   Put_Line("pulse |s| para ingresar otro un numero, otra tecla para terminar ");New_Line;   
+   Get(Rta);Skip_Line;
+   end loop;
+end Ingresa_Datos;
+
+function Cuenta_Hojas (Ar: in arbol_ent.T_Arbol) return Integer is
+   Ar_Aux : arbol_ent.T_Arbol := Ar;
+begin
+   if Vacio_Ar(ar_aux) then
+      return 0; -- No hay hojas en un árbol vacío
+   elsif Vacio_Ar(Der(Ar_Aux)) and Vacio_Ar(Izq(Ar_Aux)) then
+      return 1; -- Nodo hoja
+   else
+      return Cuenta_Hojas(Der(Ar_Aux)) + Cuenta_Hojas(Izq(Ar_Aux));
+   end if;
+end Cuenta_Hojas;
+            
+      
+   
+begin
+   Ingresa_Datos(Arbol_Enteros);
+   Cant_Hojas:=Cuenta_Hojas(Arbol_Enteros);
+   put_line("La cantidad de nodos tipo hoja son :" & integer'image(cant_hojas));   
+
+end tp6_ej12;
